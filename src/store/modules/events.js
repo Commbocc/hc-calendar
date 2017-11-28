@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { Category } from '@/store/modules/categories'
+// import router from '@/router'
 
 export class Event {
   constructor (result) {
@@ -17,11 +18,10 @@ export class Event {
 
 export default {
   state: {
-    activeDate: moment(),
     index: []
   },
   actions: {
-    fetchEvents ({getters, commit}) {
+    fetchEvents ({state, getters, commit, rootState}) {
       commit('setEvents', [])
       commit('setLocationFacets', [])
       // var url = '/calendar/GetEvents'
@@ -30,14 +30,16 @@ export default {
       var params = {
         from: getters.firstOfMonth.valueOf(),
         to: getters.lastOfMonth.valueOf()
-        // Calendars:
-        // Locations:
+        // Calendars: getters.activeCategoryKeysUrlEncoded
+        // Locations: getters.activeLocationKeysUrlEncoded
       }
 
       Vue.http.get(url, {params}).then(response => {
         response.body.result.forEach(result => {
           commit('addEvent', result)
         })
+
+        commit('setCategoryFacets', getters.uniqCategoriesOf(state.index))
         commit('setLocationFacets', response.body.locationFacets)
       }, err => {
         console.error(err)
@@ -46,9 +48,6 @@ export default {
     }
   },
   mutations: {
-    setActiveDate (state, data) {
-      state.activeDate = data
-    },
     setEvents (state, data) {
       state.index = data
     },
@@ -60,21 +59,28 @@ export default {
     eventsOfDate: (state) => (date) => {
       return state.index.filter(e => e.date.valueOf() === date.valueOf())
     },
-    eventsOfDateByParams: (state, getters) => (dateParams) => {
-      var date = moment(dateParams)
-      return getters.eventsOfDate(date)
+    eventsOfActiveDate: (state, getters, rootState) => {
+      return getters.eventsOfDate(rootState.activeDate)
     },
-    firstOfMonth: (state, getters) => {
-      return moment(state.activeDate).startOf('month')
+    activeEvents: (state, getters) => {
+      return getters.filterActiveEvents(state.index)
     },
-    lastOfMonth: (state, getters) => {
-      return moment(state.activeDate).endOf('month')
+    activeEventsOfActiveDate: (state, getters) => {
+      return getters.filterActiveEvents(getters.eventsOfActiveDate)
     },
-    monthHeaders: () => {
-      return moment()._locale._weekdaysMin
-    },
-    daysInMonth: (state, getters) => {
-      return getters.lastOfMonth.date()
+    // DRY
+    filterActiveEvents: (state, getters, rootState) => (events) => {
+      if (events.length) {
+        return events.filter(e => {
+          if (rootState.categories.activeCategories.length) {
+            return (rootState.categories.activeCategories.indexOf(e.category.title) !== -1)
+          } else {
+            return true
+          }
+        })
+      } else {
+        return events
+      }
     }
   }
 }

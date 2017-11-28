@@ -10,10 +10,6 @@ import store from './store'
 Vue.config.productionTip = false
 Vue.use(VueResource)
 
-router.afterEach((to, from) => {
-  store.dispatch('setActiveListDateParams', to.params)
-})
-
 /* eslint-disable no-new */
 new Vue({
   el: '#calendar',

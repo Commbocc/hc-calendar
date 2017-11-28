@@ -11,11 +11,17 @@ export class Location {
 
 export default {
   state: {
-    index: []
+    index: [],
+    activeLocations: []
   },
   mutations: {
     setLocationFacets (state, data) {
       state.index = _.sortBy(data.map(f => new Location(f)), 'title')
+    }
+  },
+  getters: {
+    activeLocationKeysUrlEncoded: (state, getters) => {
+      return (state.activeLocations.length) ? state.activeLocations.map(id => `calendars=${id}`).join('&') : null
     }
   }
 }

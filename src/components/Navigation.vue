@@ -1,13 +1,16 @@
 <template lang="html">
   <nav class="card card-header mb-2">
-    <div class="row no-gutters justify-content-between align-items-center text-center">
+    <div class="row no-gutters align-items-center text-center">
       <div class="col">
         <a href="#" @click.prevent="prevMonth()">Prev</a>
       </div>
       <div class="col">
-        <strong>
+        <h6 class="font-weight-bold mb-0">
           {{ header }}
-        </strong>
+        </h6>
+        <small>
+          <a href="#" @click.prevent="goTo()">Today</a>
+        </small>
       </div>
       <div class="col">
         <a href="#" @click.prevent="nextMonth()">Next</a>
@@ -23,16 +26,17 @@ export default {
   name: 'navigation',
   computed: {
     ...mapState({
-      activeDate: state => state.events.activeDate
+      focusDate: state => state.focusDate
     }),
     header () {
-      return this.activeDate.format('MMMM YYYY')
+      return this.focusDate.format('MMMM YYYY')
     }
   },
   methods: {
     ...mapActions([
       'prevMonth',
-      'nextMonth'
+      'nextMonth',
+      'goTo'
     ])
   }
 }

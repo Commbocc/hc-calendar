@@ -1,16 +1,16 @@
 <template lang="html">
-  <section v-if="list" class="">
+  <section v-if="activeDate" class="">
 
     <p class="h5 text-center my-2">
-      {{ list.date.format("LL") }}
-      <small v-if="!events.length">
+      {{ activeDate.format("LL") }}
+      <small v-if="!activeEventsOfActiveDate.length">
         <br>
         No Events
       </small>
     </p>
 
-    <div v-if="events.length" class="list-group">
-      <a v-for="event in events" :href="event.url" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div v-if="activeEventsOfActiveDate.length" class="list-group">
+      <a v-for="event in activeEventsOfActiveDate" :href="event.url" class="list-group-item list-group-item-action flex-column align-items-start">
 
         <div class="d-flex w-100 justify-content-between">
           <!-- <img :src="event.image" :alt="event.title" class="img-fluid"> -->
@@ -34,15 +34,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'event-list',
-  props: ['events'],
   computed: {
     ...mapState({
-      list: state => state.slots.activeList
-    })
+      activeDate: state => state.activeDate
+    }),
+    ...mapGetters([
+      'activeEventsOfActiveDate'
+    ])
   }
 }
 </script>

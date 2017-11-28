@@ -9,15 +9,21 @@ export class Category {
 }
 
 export default {
+  state: {
+    index: [],
+    activeCategories: []
+  },
+  mutations: {
+    setCategoryFacets (state, data) {
+      state.index = data
+    }
+  },
   getters: {
     uniqCategoriesOf: state => (events) => {
       return _.chain(events.map(e => e.category))
       .sortBy(c => c.title)
       .uniq(true, c => c.title)
       .value()
-    },
-    categories: (state, getters, rootState) => {
-      return getters.uniqCategoriesOf(rootState.events.index)
     }
   }
 }

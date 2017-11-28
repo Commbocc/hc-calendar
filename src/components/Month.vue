@@ -8,11 +8,10 @@
     </div>
     <div class="w-100"></div>
 
-    <template v-for="(slot, index) in slots">
+    <template v-for="slot in slots">
 
-      <!--  -->
+      <!-- day -->
       <router-link v-if="slot.active" :to="slot.link" class="col calendar-slot">
-        <!-- <span @click="openSlot(slot)"></span> -->
         {{ slot.dom }}
         <ul class="list-inline small my-0">
           <li v-for="cat in slot.categories" class="list-inline-item m-0">
@@ -24,9 +23,9 @@
         {{ slot.dom }}
       </div>
 
-      <!--  -->
+      <!-- week -->
       <div class="w-100" v-if="slot.endOfWeek">
-        <div v-if="isActiveList(slot.woy)" class="calendar-day-list" :ref="`week${slot.woy}`">
+        <div v-if="isActiveWeek(slot.woy)" class="calendar-day-list" :ref="`week${slot.woy}`">
           <router-view/>
         </div>
       </div>
@@ -43,21 +42,27 @@ export default {
   name: 'calendar-month',
   methods: {
     ...mapActions([
-      'setActiveDateWithParams'
+      'fetchEvents',
+      'setDatesWithRouteParams'
     ])
   },
   computed: {
     ...mapGetters([
-      'slots',
       'monthHeaders',
-      'isActiveList'
+      'isActiveWeek',
+      'slots'
     ])
-  // },
-  // watch: {
-  //   '$route': function (e) {
-  //     console.log('watched in month comp')
-  //     this.setActiveDateWithParams(e.params)
-  //   }
+  },
+  mounted () {
+    // console.log('month mounted')
+    this.setDatesWithRouteParams(this.$route.params)
+    this.fetchEvents()
+  },
+  watch: {
+    '$route': function (e) {
+      // console.log('watched from month component')
+      this.setDatesWithRouteParams(this.$route.params)
+    }
   }
 }
 </script>

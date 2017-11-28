@@ -4,30 +4,30 @@
     <div class="row">
       <div class="col-md-8 order-md-12">
 
+        <!-- navigation -->
         <nav is="calendar-nav"></nav>
-        <section is="calendar-month"></section>
+
+        <!-- calendar view -->
+        <router-view/>
 
       </div>
       <div class="col-md-4 order-md-1">
 
-        <ul class="list-unstyled">
-          <li v-for="cat in categories">
-            <label>
-              <input type="checkbox">
-              <span :title="cat.title" :aria-label="cat.title" :style="'color:'+cat.color">&#9679;</span>
-              {{ cat.title }}
-            </label>
-          </li>
-        </ul>
+        <!-- categories -->
+        <div class="card mb-3">
+          <h6 class="card-header">
+            Calendars
+          </h6>
+          <div is="categories" class="card-body hc-facet-container px-2 py-1"></div>
+        </div>
 
-        <ul class="list-unstyled small">
-          <li v-for="location in locations" class="mb-1">
-            <label>
-              <input type="checkbox">
-              {{ location.title }}
-            </label>
-          </li>
-        </ul>
+        <!-- locations -->
+        <div class="card mb-3">
+          <h6 class="card-header">
+            Locations
+          </h6>
+          <div is="locations" class="card-body hc-facet-container px-2 py-1"></div>
+        </div>
 
       </div>
     </div>
@@ -36,32 +36,18 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
-
 import CalendarNav from '@/components/Navigation'
 import CalendarMonth from '@/components/Month'
+import Categories from '@/components/Categories'
+import Locations from '@/components/Locations'
 
 export default {
   name: 'calendar',
   components: {
     CalendarNav,
-    CalendarMonth
-  },
-  methods: {
-    ...mapActions([
-      'fetchEvents'
-    ])
-  },
-  computed: {
-    ...mapState({
-      locations: state => state.locations.index
-    }),
-    ...mapGetters([
-      'categories'
-    ])
-  },
-  mounted () {
-    this.fetchEvents()
+    CalendarMonth,
+    Categories,
+    Locations
   }
 }
 </script>
@@ -86,5 +72,10 @@ export default {
 
 .calendar-slot-empty {
   color: #aaa;
+}
+
+.hc-facet-container {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

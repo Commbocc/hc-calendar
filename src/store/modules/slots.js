@@ -1,9 +1,9 @@
 import moment from 'moment'
 
 export class Slot {
-  constructor (date, events, categories, active = true) {
+  constructor (date, categories, active = true) {
     this.date = date
-    this.events = events
+    // this.events = events
     this.categories = categories
 
     this.active = active
@@ -19,38 +19,9 @@ export class Slot {
 }
 
 export default {
-  state: {
-    activeList: null
-  },
-  actions: {
-    // openSlot ({state, commit}, slot) {
-    //   if (slot === state.activeList) {
-    //     commit('setActiveList', null)
-    //   } else {
-    //     commit('setActiveList', slot)
-    //   }
-    // },
-    setActiveListByDate ({getters, commit}, date) {
-      commit('setActiveList', getters.findSlotByDate(date))
-    },
-    setActiveListDateParams ({dispatch}, params) {
-      var moddedParams = params
-      moddedParams.month--
-      var d = moment(moddedParams)
-      dispatch('setActiveListByDate', d)
-    }
-  },
-  mutations: {
-    setActiveList (state, data) {
-      state.activeList = data
-    }
-  },
   getters: {
     findSlotByDate: (state, getters) => (date) => {
       return getters.slots.find(s => s.date.valueOf() === date.valueOf())
-    },
-    isActiveList: state => (weekOfYear) => {
-      return (state.activeList) ? (state.activeList.woy === weekOfYear) : false
     },
     leadingDaySlots: (state, getters) => {
       return getters.firstOfMonth.day()
@@ -66,18 +37,18 @@ export default {
 
       for (i = 0; i < getters.leadingDaySlots; i++) {
         date = moment(getters.firstOfMonth).subtract(getters.leadingDaySlots - i, 'days')
-        slots.push(new Slot(date, [], [], false))
+        slots.push(new Slot(date, [], false))
       }
 
       for (i = 0; i < getters.daysInMonth; i++) {
         date = moment(getters.firstOfMonth).add(i, 'days')
-        var events = rootState.events.index.filter(event => event.date.valueOf() === date.valueOf())
-        slots.push(new Slot(date, events, getters.uniqCategoriesOf(events)))
+        var events = getters.activeEvents.filter(event => event.date.valueOf() === date.valueOf())
+        slots.push(new Slot(date, getters.uniqCategoriesOf(events)))
       }
 
       for (i = 0; i < getters.trailingDaySlots; i++) {
         date = moment(getters.lastOfMonth).add(i + 1, 'days')
-        slots.push(new Slot(date, [], [], false))
+        slots.push(new Slot(date, [], false))
       }
 
       return slots
