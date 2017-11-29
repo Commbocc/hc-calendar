@@ -4,11 +4,10 @@ import Vuex from 'vuex'
 import moment from 'moment'
 
 import events from '@/store/modules/events'
-import locations from '@/store/modules/locations'
 import navigation from '@/store/modules/navigation'
 import slots from '@/store/modules/slots'
 import lists from '@/store/modules/lists'
-import categories from '@/store/modules/categories'
+import filters from '@/store/modules/filters'
 
 Vue.use(Vuex)
 
@@ -49,10 +48,9 @@ export default new Vuex.Store({
   },
   modules: {
     events,
-    locations,
     navigation,
     slots,
     lists,
-    categories
+    filters
   }
 })

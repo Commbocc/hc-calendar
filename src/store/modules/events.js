@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import moment from 'moment'
-import { Category } from '@/store/modules/categories'
+import { Category } from '@/store/modules/filters/categories'
 // import router from '@/router'
 
 export class Event {
@@ -13,6 +13,8 @@ export class Event {
     this.date = moment(this.start).startOf('day')
     this.category = new Category(result.type, result.color)
     this.image = `http://hcflgov.net${result.img}`
+
+    this.hasPast = (this.end.valueOf() < moment().valueOf())
   }
 }
 
@@ -23,18 +25,18 @@ export default {
   actions: {
     fetchEvents ({state, getters, commit, rootState}) {
       commit('setEvents', [])
-      commit('setLocationFacets', [])
-      // var url = '/calendar/GetEvents'
-      var url = 'http://localhost:3000/events'
 
-      var params = {
+      var url = process.env.EVENTS_URL
+
+      var data = {
         from: getters.firstOfMonth.valueOf(),
-        to: getters.lastOfMonth.valueOf()
-        // Calendars: getters.activeCategoryKeysUrlEncoded
-        // Locations: getters.activeLocationKeysUrlEncoded
+        to: getters.lastOfMonth.valueOf(),
+        Locations: getters.activeLocationIds,
+        Keywords: getters.activeKeywords
+        // Calendars: [] // rootState.filters.categories.activeCategories
       }
 
-      Vue.http.get(url, {params}).then(response => {
+      Vue.http.post(url, data).then(response => {
         response.body.result.forEach(result => {
           commit('addEvent', result)
         })
@@ -72,8 +74,8 @@ export default {
     filterActiveEvents: (state, getters, rootState) => (events) => {
       if (events.length) {
         return events.filter(e => {
-          if (rootState.categories.activeCategories.length) {
-            return (rootState.categories.activeCategories.indexOf(e.category.title) !== -1)
+          if (rootState.filters.categories.activeCategories.length) {
+            return (rootState.filters.categories.activeCategories.map(c => c.title).indexOf(e.category.title) !== -1)
           } else {
             return true
           }

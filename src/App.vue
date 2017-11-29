@@ -1,53 +1,18 @@
 <template>
   <div id="calendar">
 
-    <div class="row">
-      <div class="col-md-8 order-md-12">
-
-        <!-- navigation -->
-        <nav is="calendar-nav"></nav>
-
-        <!-- calendar view -->
-        <router-view/>
-
-      </div>
-      <div class="col-md-4 order-md-1">
-
-        <!-- categories -->
-        <div class="card mb-3">
-          <h6 class="card-header">
-            Calendars
-          </h6>
-          <div is="categories" class="card-body hc-facet-container px-2 py-1"></div>
-        </div>
-
-        <!-- locations -->
-        <div class="card mb-3">
-          <h6 class="card-header">
-            Locations
-          </h6>
-          <div is="locations" class="card-body hc-facet-container px-2 py-1"></div>
-        </div>
-
-      </div>
-    </div>
+    <router-view/>
 
   </div>
 </template>
 
 <script>
-import CalendarNav from '@/components/Navigation'
 import CalendarMonth from '@/components/Month'
-import Categories from '@/components/Categories'
-import Locations from '@/components/Locations'
 
 export default {
   name: 'calendar',
   components: {
-    CalendarNav,
-    CalendarMonth,
-    Categories,
-    Locations
+    CalendarMonth
   }
 }
 </script>
@@ -68,6 +33,12 @@ export default {
   border: solid 1px #ddd;
   text-align: left;
   padding: .5rem;
+}
+
+.calendar-slot-today {
+  /*background-color: #78ccd2;*/
+  background-color: transparent;
+  background-color: rgba(120,204,210, 0.25);
 }
 
 .calendar-slot-empty {

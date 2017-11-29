@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/calendar/GetEvents': {
+        target: 'http://hcflgov.net/calendar/GetEvents',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/calendar/GetEvents': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

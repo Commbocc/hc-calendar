@@ -24,6 +24,12 @@ export default {
       .sortBy(c => c.title)
       .uniq(true, c => c.title)
       .value()
+    },
+    activeAndAvailableCategories: state => {
+      return _.chain(_.union(state.index, state.activeCategories))
+      .sortBy(c => c.title)
+      .uniq(true, c => c.title)
+      .value()
     }
   }
 }

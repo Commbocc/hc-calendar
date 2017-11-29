@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="calendar-month" class="row no-gutters">
+  <div id="calendar-month" class="row no-gutters mb-3">
 
     <div class="col calendar-slot" v-for="header in monthHeaders">
       <strong>
@@ -11,7 +11,7 @@
     <template v-for="slot in slots">
 
       <!-- day -->
-      <router-link v-if="slot.active" :to="slot.link" class="col calendar-slot">
+      <router-link v-if="slot.active" :to="slot.link" class="col calendar-slot" :class="(slot.isToday) ? 'calendar-slot-today' : null">
         {{ slot.dom }}
         <ul class="list-inline small my-0">
           <li v-for="cat in slot.categories" class="list-inline-item m-0">

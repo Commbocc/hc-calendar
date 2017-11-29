@@ -15,6 +15,8 @@ export class Slot {
     this.endOfWeek = (this.dow % 7 === 0)
 
     this.link = this.date.format('/YYYY/MM/DD')
+
+    this.isToday = (this.date.valueOf() === moment().startOf('date').valueOf())
   }
 }
 

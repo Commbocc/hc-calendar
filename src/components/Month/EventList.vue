@@ -10,7 +10,7 @@
     </p>
 
     <div v-if="activeEventsOfActiveDate.length" class="list-group">
-      <a v-for="event in activeEventsOfActiveDate" :href="event.url" class="list-group-item list-group-item-action flex-column align-items-start">
+      <a v-for="event in activeEventsOfActiveDate" :href="event.url" class="list-group-item list-group-item-action flex-column align-items-start" :class="(event.hasPast) ? 'disabled' : null">
 
         <div class="d-flex w-100 justify-content-between">
           <!-- <img :src="event.image" :alt="event.title" class="img-fluid"> -->
