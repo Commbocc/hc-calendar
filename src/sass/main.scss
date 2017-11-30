@@ -1,0 +1,89 @@
+// @import '~bootstrap/scss/functions';
+// // @import 'variables';
+// @import '~bootstrap/scss/variables';
+//
+// @import "~bootstrap/scss/mixins";
+// @import "~bootstrap/scss/root";
+// // @import "~bootstrap/scss/print";
+// @import "~bootstrap/scss/reboot";
+// // @import "~bootstrap/scss/type";
+// // @import "~bootstrap/scss/images";
+// // @import "~bootstrap/scss/code";
+// @import "~bootstrap/scss/grid";
+// // @import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/forms";
+// @import "~bootstrap/scss/buttons";
+// // @import "~bootstrap/scss/transitions";
+// // @import "~bootstrap/scss/dropdown";
+// // @import "~bootstrap/scss/button-group";
+// @import "~bootstrap/scss/input-group";
+// // @import "~bootstrap/scss/custom-forms";
+// // @import "~bootstrap/scss/nav";
+// // @import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/card";
+// // @import "~bootstrap/scss/breadcrumb";
+// // @import "~bootstrap/scss/pagination";
+// // @import "~bootstrap/scss/badge";
+// // @import "~bootstrap/scss/jumbotron";
+// // @import "~bootstrap/scss/alert";
+// // @import "~bootstrap/scss/progress";
+// // @import "~bootstrap/scss/media";
+// @import "~bootstrap/scss/list-group";
+// // @import "~bootstrap/scss/close";
+// // @import "~bootstrap/scss/modal";
+// // @import "~bootstrap/scss/tooltip";
+// // @import "~bootstrap/scss/popover";
+// // @import "~bootstrap/scss/carousel";
+// // @import "~bootstrap/scss/utilities";
+
+
+//
+.hc-facet-container {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+// components
+.hc-calendar-container {
+  .calendar-month {
+    border: solid 1px #ccc;
+    text-align: center;
+  }
+
+  .calendar-slot {
+    background: #fff;
+    border: solid 1px #ddd;
+    padding: 1rem 0;
+  }
+
+  .calendar-day-list:not(:empty) {
+    border: solid 1px #ddd;
+    text-align: left;
+    padding: .5rem;
+  }
+
+  .calendar-slot-today {
+    background: transparent;
+    // background: rgba($gray-400, 0.2);
+    background: rgba(#eee, 0.2);
+  }
+
+  .calendar-slot-active {
+    background: transparent;
+    // background: rgba($info, 0.2);
+    background: rgba(#ddd, 0.2);
+  }
+
+  .calendar-slot-empty {
+    color: #aaa;
+  }
+
+  .past-event {
+    zoom: 1;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+  }
+}

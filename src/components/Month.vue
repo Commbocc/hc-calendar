@@ -1,5 +1,6 @@
 <template lang="html">
-  <div id="calendar-month" class="row no-gutters mb-3">
+  <div class="hc-calendar-container">
+    <div class="calendar-month row no-gutters mb-3">
 
     <div class="col calendar-slot" v-for="header in monthHeaders">
       <strong>
@@ -32,6 +33,7 @@
 
     </template>
 
+    </div>
   </div>
 </template>
 

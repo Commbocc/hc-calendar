@@ -1,5 +1,5 @@
 <template>
-  <div id="calendar">
+  <div id="calendar" class="hc-calendar-container">
 
     <router-view/>
 
@@ -17,36 +17,4 @@ export default {
 }
 </script>
 
-<style lang="css">
-#calendar-month {
-  border: solid 1px #ccc;
-  text-align: center;
-}
-
-.calendar-slot {
-  background: #fff;
-  border: solid 1px #ddd;
-  padding: 1rem 0;
-}
-
-.calendar-day-list:not(:empty) {
-  border: solid 1px #ddd;
-  text-align: left;
-  padding: .5rem;
-}
-
-.calendar-slot-today {
-  /*background-color: #78ccd2;*/
-  background-color: transparent;
-  background-color: rgba(120,204,210, 0.25);
-}
-
-.calendar-slot-empty {
-  color: #aaa;
-}
-
-.hc-facet-container {
-  max-height: 250px;
-  overflow-y: auto;
-}
-</style>
+<style lang="scss"></style>

@@ -1,5 +1,5 @@
 <template lang="html">
-  <nav class="card card-header mb-2 bg-white">
+  <nav class="card card-header mb-2 bg-white hc-calendar-container">
     <div class="row no-gutters align-items-center text-center">
       <div class="col">
         <a href="#" @click.prevent="prevMonth()">Prev</a>
