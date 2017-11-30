@@ -1,19 +1,25 @@
 <template lang="html">
   <nav class="card card-header mb-2 bg-white hc-calendar-container">
-    <div class="row no-gutters align-items-center text-center">
-      <div class="col">
-        <a href="#" @click.prevent="prevMonth()">Prev</a>
+    <div class="d-flex justify-content-between align-items-center text-center">
+      <div class="">
+        <a href="#" @click.prevent="prevMonth()">
+          <span class="fa fa-fw fa-2x fa-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous Month</span>
+        </a>
       </div>
-      <div class="col">
-        <h6 class="font-weight-bold mb-0">
+      <div class="">
+        <h5 class="font-weight-bold mb-0">
           {{ header }}
-        </h6>
+        </h5>
         <small>
           <a href="#" @click.prevent="goTo()">Today</a>
         </small>
       </div>
-      <div class="col">
-        <a href="#" @click.prevent="nextMonth()">Next</a>
+      <div class="">
+        <a href="#" @click.prevent="nextMonth()">
+          <span class="fa fa-fw fa-2x fa-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next Month</span>
+        </a>
       </div>
     </div>
   </nav>

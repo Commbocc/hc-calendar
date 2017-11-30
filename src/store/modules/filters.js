@@ -11,24 +11,45 @@ export default {
     keywords
   },
   actions: {
-    clearFilters ({commit, dispatch}) {
+    clearFilters ({state, commit, dispatch}) {
+      var shouldRefreshEvents = (state.keywords.active.length)
       commit('clearFilters')
-      dispatch('fetchEvents')
+      if (shouldRefreshEvents) dispatch('fetchEvents')
     }
   },
   mutations: {
     clearFilters (state) {
-      state.categories.activeCategories = []
-      state.locations.activeLocations = []
-      state.keywords.activeKeywords = []
+      state.categories.active = []
+      state.locations.active = []
+      state.keywords.active = []
     }
   },
   getters: {
+    filterEvents: (state, getters) => (events) => {
+      if (events.length) {
+        return events.filter(e => {
+          if (state.categories.active.length) {
+            return (state.categories.active.map(c => c.title).indexOf(e.category.title) !== -1)
+          } else {
+            return true
+          }
+        })
+        .filter(e => {
+          if (state.locations.active.length) {
+            return (state.locations.active.map(l => l.title).indexOf(e.location.title) !== -1)
+          } else {
+            return true
+          }
+        })
+      } else {
+        return events
+      }
+    },
     hasFiltersApplied: state => {
       return _.union(
-        state.categories.activeCategories,
-        state.locations.activeLocations,
-        state.keywords.activeKeywords
+        state.categories.active,
+        state.locations.active,
+        state.keywords.active
       ).length
     }
   }

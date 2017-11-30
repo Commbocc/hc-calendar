@@ -11,7 +11,7 @@ export class Category {
 export default {
   state: {
     index: [],
-    activeCategories: []
+    active: []
   },
   mutations: {
     setCategoryFacets (state, data) {
@@ -26,7 +26,7 @@ export default {
       .value()
     },
     activeAndAvailableCategories: state => {
-      return _.chain(_.union(state.index, state.activeCategories))
+      return _.chain(_.union(state.index, state.active))
       .sortBy(c => c.title)
       .uniq(true, c => c.title)
       .value()

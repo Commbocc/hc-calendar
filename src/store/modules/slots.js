@@ -1,12 +1,10 @@
 import moment from 'moment'
 
 export class Slot {
-  constructor (date, categories, active = true) {
+  constructor (date, categories, inCurrentMonth = true) {
     this.date = date
-    // this.events = events
     this.categories = categories
-
-    this.active = active
+    this.inCurrentMonth = inCurrentMonth
 
     this.dom = this.date.date()
     this.dow = this.date.day() + 1
@@ -18,13 +16,18 @@ export class Slot {
 
     this.isToday = (this.date.valueOf() === moment().startOf('date').valueOf())
   }
+
+  slotClasses (activeDate) {
+    var classes = []
+    if (this.isToday) classes.push('calendar-slot-today')
+    if (this.isToday) classes.push('font-weight-bold')
+    if (activeDate && this.date.valueOf() === activeDate.valueOf()) classes.push('calendar-slot-active')
+    return classes.join(' ')
+  }
 }
 
 export default {
   getters: {
-    findSlotByDate: (state, getters) => (date) => {
-      return getters.slots.find(s => s.date.valueOf() === date.valueOf())
-    },
     leadingDaySlots: (state, getters) => {
       return getters.firstOfMonth.day()
     },
