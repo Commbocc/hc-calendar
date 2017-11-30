@@ -1,6 +1,6 @@
 export default {
   state: {
-    activeKeywords: []
+    active: []
   },
   actions: {
     addKeyword ({commit, dispatch}, keyword) {
@@ -14,15 +14,15 @@ export default {
   },
   mutations: {
     addKeyword (state, data) {
-      state.activeKeywords.push(data)
+      data.split(',').forEach(word => state.active.push(word))
     },
     removeKeyword (state, data) {
-      state.activeKeywords.splice(state.activeKeywords.indexOf(data), 1)
+      state.active.splice(state.active.indexOf(data), 1)
     }
   },
   getters: {
     activeKeywords: state => {
-      return state.activeKeywords
+      return state.active
     }
   }
 }

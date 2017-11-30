@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { Category } from '@/store/modules/filters/categories'
+import { Location } from '@/store/modules/filters/locations'
 // import router from '@/router'
 
 export class Event {
@@ -11,10 +12,26 @@ export class Event {
     this.title = result.title
     this.url = result.url
     this.date = moment(this.start).startOf('day')
-    this.category = new Category(result.type, result.color)
     this.image = `http://hcflgov.net${result.img}`
+    this.category = new Category(result.type, result.color)
+    this.location = new Location(result.location)
 
     this.hasPast = (this.end.valueOf() < moment().valueOf())
+  }
+
+  eventClasses () {
+    var classes = []
+    if (this.hasPast) classes.push('past-event')
+    return classes.join(' ')
+  }
+
+  timeRange () {
+    // date range function
+    if (this.start.valueOf() === this.end.valueOf()) {
+      return this.start.format('LT')
+    } else {
+      return `${this.start.format('LT')} - ${this.end.format('LT')}`
+    }
   }
 }
 
@@ -31,9 +48,7 @@ export default {
       var data = {
         from: getters.firstOfMonth.valueOf(),
         to: getters.lastOfMonth.valueOf(),
-        Locations: getters.activeLocationIds,
         Keywords: getters.activeKeywords
-        // Calendars: [] // rootState.filters.categories.activeCategories
       }
 
       Vue.http.post(url, data).then(response => {
@@ -42,7 +57,7 @@ export default {
         })
 
         commit('setCategoryFacets', getters.uniqCategoriesOf(state.index))
-        commit('setLocationFacets', response.body.locationFacets)
+        commit('setLocationFacets', getters.uniqLocationsOf(state.index))
       }, err => {
         console.error(err)
         // commit('setEvents', [])
@@ -65,24 +80,10 @@ export default {
       return getters.eventsOfDate(rootState.activeDate)
     },
     activeEvents: (state, getters) => {
-      return getters.filterActiveEvents(state.index)
+      return getters.filterEvents(state.index)
     },
     activeEventsOfActiveDate: (state, getters) => {
-      return getters.filterActiveEvents(getters.eventsOfActiveDate)
-    },
-    // DRY
-    filterActiveEvents: (state, getters, rootState) => (events) => {
-      if (events.length) {
-        return events.filter(e => {
-          if (rootState.filters.categories.activeCategories.length) {
-            return (rootState.filters.categories.activeCategories.map(c => c.title).indexOf(e.category.title) !== -1)
-          } else {
-            return true
-          }
-        })
-      } else {
-        return events
-      }
+      return getters.filterEvents(getters.eventsOfActiveDate)
     }
   }
 }

@@ -1,38 +1,33 @@
 import _ from 'underscore'
 
 export class Location {
-  constructor (facet) {
-    // console.log(facet)
-    this.title = facet.Text
-    this.id = facet.Key
-    // this.selected = facet.Selected
+  constructor (title) {
+    this.title = title
   }
 }
 
 export default {
   state: {
     index: [],
-    activeLocations: []
-  },
-  actions: {
-    updateLocations ({dispatch}) {
-      // console.log('updateLocations')
-      dispatch('fetchEvents')
-    }
+    active: []
   },
   mutations: {
     setLocationFacets (state, data) {
-      state.index = data.map(f => new Location(f))
+      state.index = data
     }
   },
   getters: {
-    activeLocationIds: state => {
-      return state.activeLocations.map(l => l.id)
+    uniqLocationsOf: state => (events) => {
+      return _.chain(events.map(e => e.location))
+      .reject(l => l.title === null)
+      .sortBy(l => l.title)
+      .uniq(true, l => l.title)
+      .value()
     },
     activeAndAvailableLocations: state => {
-      return _.chain(_.union(state.index, state.activeLocations))
-      .sortBy(c => c.title)
-      .uniq(true, c => c.id)
+      return _.chain(_.union(state.index, state.active))
+      .sortBy(l => l.title)
+      .uniq(true, l => l.title)
       .value()
     }
   }

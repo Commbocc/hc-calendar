@@ -2,43 +2,43 @@
   <div class="hc-calendar-container">
     <div class="calendar-month row no-gutters mb-3">
 
-    <div class="col calendar-slot" v-for="header in monthHeaders">
-      <strong>
-        {{ header }}
-      </strong>
-    </div>
-    <div class="w-100"></div>
-
-    <template v-for="slot in slots">
-
-      <!-- day -->
-      <router-link v-if="slot.active" :to="slot.link" class="col calendar-slot" :class="(slot.isToday) ? 'calendar-slot-today' : null">
-        {{ slot.dom }}
-        <ul class="list-inline small my-0">
-          <li v-for="cat in slot.categories" class="list-inline-item m-0">
-            <span v-html="cat.icon"></span>
-          </li>
-        </ul>
-      </router-link>
-      <div v-else class="col calendar-slot calendar-slot-empty" aria-hidden="true">
-        {{ slot.dom }}
+      <div class="col calendar-slot" v-for="header in monthHeaders">
+        <strong>
+          {{ header }}
+        </strong>
       </div>
+      <div class="w-100"></div>
 
-      <!-- week -->
-      <div class="w-100" v-if="slot.endOfWeek">
-        <div v-if="isActiveWeek(slot.woy)" class="calendar-day-list" :ref="`week${slot.woy}`">
-          <router-view/>
+      <template v-for="slot in slots">
+
+        <!-- day -->
+        <router-link v-if="slot.inCurrentMonth" :to="slot.link" class="col calendar-slot" :class="slot.slotClasses(activeDate)">
+          {{ slot.dom }}
+          <ul class="list-inline small my-0">
+            <li v-for="cat in slot.categories" class="list-inline-item m-0">
+              <span v-html="cat.icon"></span>
+            </li>
+          </ul>
+        </router-link>
+        <div v-else class="col calendar-slot calendar-slot-empty" aria-hidden="true">
+          {{ slot.dom }}
         </div>
-      </div>
 
-    </template>
+        <!-- week -->
+        <div class="w-100" v-if="slot.endOfWeek">
+          <div v-if="isActiveWeek(slot.woy)" class="calendar-day-list" :ref="`week${slot.woy}`">
+            <router-view/>
+          </div>
+        </div>
+
+      </template>
 
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'calendar-month',
@@ -49,6 +49,9 @@ export default {
     ])
   },
   computed: {
+    ...mapState({
+      activeDate: state => state.activeDate
+    }),
     ...mapGetters([
       'monthHeaders',
       'isActiveWeek',

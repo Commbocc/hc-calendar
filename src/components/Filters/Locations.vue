@@ -3,7 +3,7 @@
     <ul v-if="activeAndAvailableLocations.length" class="list-unstyled mb-0 small">
       <li v-for="location in activeAndAvailableLocations" class="form-check">
         <label class="form-check-label">
-          <input @change="updateLocations" class="form-check-input" type="checkbox" v-model="$store.state.filters.locations.activeLocations" :value="location">
+          <input class="form-check-input" type="checkbox" v-model="$store.state.filters.locations.active" :value="location">
           {{ location.title }}
         </label>
       </li>
@@ -11,19 +11,14 @@
     <div v-else class="text-muted text-center small">
       <strong>No Locations</strong>
     </div>
-    <!-- <pre>{{ $store.state.filters.locations.activeLocations }}</pre> -->
+    <!-- <pre>{{ $store.state.filters.locations.active }}</pre> -->
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-  methods: {
-    ...mapActions([
-      'updateLocations'
-    ])
-  },
   computed: {
     ...mapGetters([
       'activeAndAvailableLocations'
