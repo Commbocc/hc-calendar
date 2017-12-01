@@ -19,7 +19,7 @@ export default {
       commit('setFocusDate', date)
       commit('setActiveDate', null)
       dispatch('fetchEvents')
-      router.push(date.format('/YYYY/MM'))
+      router.replace(date.format('/YYYY/MM'))
     }
   }
 }

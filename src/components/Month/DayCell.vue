@@ -1,5 +1,5 @@
 <template lang="html">
-  <router-link v-if="cell.inCurrentMonth" :to="link" class="col calendar-cell" :class="cellClasses">
+  <router-link v-if="cell.inCurrentMonth" :to="link" class="col calendar-cell" :class="cellClasses" :replace="true">
     {{ cell.dom }}
     <ul class="list-inline small my-0">
       <li v-for="cat in cell.categories" class="list-inline-item m-0">
