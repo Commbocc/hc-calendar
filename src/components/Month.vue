@@ -2,31 +2,21 @@
   <div class="hc-calendar-container">
     <div class="calendar-month row no-gutters mb-3">
 
-      <div class="col calendar-slot" v-for="header in monthHeaders">
+      <div class="col calendar-cell" v-for="header in monthHeaders">
         <strong>
           {{ header }}
         </strong>
       </div>
       <div class="w-100"></div>
 
-      <template v-for="slot in slots">
+      <template v-for="cell in cells">
 
         <!-- day -->
-        <router-link v-if="slot.inCurrentMonth" :to="slot.link" class="col calendar-slot" :class="slot.slotClasses(activeDate)">
-          {{ slot.dom }}
-          <ul class="list-inline small my-0">
-            <li v-for="cat in slot.categories" class="list-inline-item m-0">
-              <span v-html="cat.icon"></span>
-            </li>
-          </ul>
-        </router-link>
-        <div v-else class="col calendar-slot calendar-slot-empty" aria-hidden="true">
-          {{ slot.dom }}
-        </div>
+        <div is="day-cell" :cell="cell"></div>
 
         <!-- week -->
-        <div class="w-100" v-if="slot.endOfWeek">
-          <div v-if="isActiveWeek(slot.woy)" class="calendar-day-list" :ref="`week${slot.woy}`">
+        <div class="w-100" v-if="cell.endOfWeek">
+          <div v-if="isActiveWeek(cell.woy)" class="calendar-day-list" :ref="`week${cell.woy}`">
             <router-view/>
           </div>
         </div>
@@ -39,9 +29,13 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
+import DayCell from '@/components/Month/DayCell'
 
 export default {
   name: 'calendar-month',
+  components: {
+    DayCell
+  },
   methods: {
     ...mapActions([
       'fetchEvents',
@@ -55,7 +49,7 @@ export default {
     ...mapGetters([
       'monthHeaders',
       'isActiveWeek',
-      'slots'
+      'cells'
     ])
   },
   mounted () {

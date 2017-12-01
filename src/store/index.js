@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import events from '@/store/modules/events'
 import navigation from '@/store/modules/navigation'
-import slots from '@/store/modules/slots'
+import cells from '@/store/modules/cells'
 import lists from '@/store/modules/lists'
 import filters from '@/store/modules/filters'
 
@@ -49,7 +49,7 @@ export default new Vuex.Store({
   modules: {
     events,
     navigation,
-    slots,
+    cells,
     lists,
     filters
   }
