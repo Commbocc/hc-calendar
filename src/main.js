@@ -9,6 +9,7 @@ import CalendarFilters from '@/components/Filters'
 
 import router from './router'
 import store from './store'
+import { initComponents } from './polyfills'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
@@ -22,9 +23,6 @@ window.HcCalendar = Vue.extend({
   template: '<Calendar/>',
   components: { Calendar }
 })
-document.querySelectorAll('.hc-calendar').forEach(elem => {
-  new window.HcCalendar().$mount(elem)
-})
 
 // Calendar Navigation
 window.HcCalendarNav = Vue.extend({
@@ -32,9 +30,6 @@ window.HcCalendarNav = Vue.extend({
   store,
   template: '<CalendarNav/>',
   components: { CalendarNav }
-})
-document.querySelectorAll('.hc-calendar-nav').forEach(elem => {
-  new window.HcCalendarNav().$mount(elem)
 })
 
 // Calendar Filters
@@ -44,6 +39,17 @@ window.HcCalendarFilters = Vue.extend({
   template: '<CalendarFilters/>',
   components: { CalendarFilters }
 })
-document.querySelectorAll('.hc-calendar-filters').forEach(elem => {
-  new window.HcCalendarFilters().$mount(elem)
-})
+
+//
+initComponents([{
+  selector: '.hc-calendar',
+  classExtension: 'HcCalendar'
+},
+{
+  selector: '.hc-calendar-nav',
+  classExtension: 'HcCalendarNav'
+},
+{
+  selector: '.hc-calendar-filters',
+  classExtension: 'HcCalendarFilters'
+}])
