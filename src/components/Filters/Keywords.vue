@@ -13,7 +13,7 @@
     <ul v-if="activeKeywords.length" class="list-unstyled mb-0">
       <li v-for="keyword in activeKeywords" class="my-2">
         <a @click.prevent="removeKeyword(keyword)" href="#" class="text-danger">
-          <span  class="fa fa-fw fa-remove" aria-label="Remove Keword"></span>
+          <span aria-label="Remove Keword" class="font-weight-bold">&#215;</span>
         </a>
         {{ keyword }}
       </li>

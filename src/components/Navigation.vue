@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center text-center">
       <div class="">
         <a href="#" @click.prevent="prevMonth()">
-          <span class="fa fa-fw fa-2x fa-chevron-left" aria-hidden="true"></span>
+          <span class="h2 font-weight-bold">&#8249;</span>
           <span class="sr-only">Previous Month</span>
         </a>
       </div>
@@ -17,7 +17,7 @@
       </div>
       <div class="">
         <a href="#" @click.prevent="nextMonth()">
-          <span class="fa fa-fw fa-2x fa-chevron-right" aria-hidden="true"></span>
+          <span class="h2 font-weight-bold">&#8250;</span>
           <span class="sr-only">Next Month</span>
         </a>
       </div>
